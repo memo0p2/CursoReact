@@ -18,16 +18,10 @@ const Header = () => {
   return (
     <header style={headerStyles}>
       <div>
-        ( Hijo ←→ Padre )
+        ( Hijo a Padre )
       </div>
       <div style={subtitleStyles}>
-        <span>
-          HOC
-        </span>
-        <br/>
-        <span>
-          High Order Component 
-        </span>
+        Event Bubbling
         <span role='img' aria-label='flame' >
           🔥
         </span>
@@ -42,48 +36,43 @@ const boxStyles = {
   border: '1px solid gray',
   borderRadius: '0.3em',
   textAlign: 'center'
-
 }
 
-// HOC
-const withCounter = (Comp) => {
-  return class extends Component {
-    state = {
-      num: 0
-    }
-
-    add = () => {
-      this.setState(state => ({
-        num: state.num + 1
-      }))
-    }
-
-    render () {
-      return (
-        <Comp
-          num={this.state.num}
-          add={this.add}
-        />
-      )
-    }
+class Hijo extends Component {
+  handleClick = (e) => {
+    // e.stopPropagation()
+    e.saludo = 'Hola Mensaje desde el Hijo'
+    console.log('Click en <Hijo />')
   }
-}
-
-class App extends Component {
+  
   render () {
-    const { num, add } = this.props
-
-    console.log(this.props)
     return (
-      <div style={boxStyles}>
-        <Header />
-        <h1>{ num }</h1>
-        <button onClick={add}>
-          ADD
-        </button>
+      <div
+        style={boxStyles}
+        onClick={this.handleClick}  
+      >
+        <p>Hijo</p>
       </div>
     )
   }
 }
 
-export default withCounter(App)
+class App extends Component {
+  handleClick = (e) => {
+    console.log('Click en <Padre />   ', e.saludo)
+  }
+
+  render () {
+    return (
+      <div
+        style={boxStyles}
+        onClick={this.handleClick}  
+      >
+        <Header />
+        <Hijo />
+      </div>
+    )
+  }
+}
+
+export default App
