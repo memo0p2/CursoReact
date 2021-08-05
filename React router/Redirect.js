@@ -45,9 +45,6 @@ const App = () => {
       <Route path='/login' render={Login} />
       <Route path='/perfil' render={Perfil} />
       <Redirect from='/p' to='/perfil' />
-      <div>
-        que pedo puto
-      </div>
     </BrowserRouter>
   )
 }
